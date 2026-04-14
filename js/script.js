@@ -32,7 +32,7 @@ form.addEventListener("submit", function (e) {
 
 // 3. Función actualizar UI
 function updateUI() {
-  tableBody.innerHTML = "";
+  tableBody.innerHTML = ""; 
 
   let totalBalance = 0;
   let totalIncome = 0;
