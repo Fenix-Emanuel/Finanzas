@@ -42,12 +42,17 @@ function updateUI() {
     const row = document.createElement("tr");
 
     row.innerHTML = `
-      <td>${tx.description}</td>
-      <td>$${tx.amount}</td>
-      <td class="${tx.type === "income" ? "text-success" : "text-danger"}">
-        ${tx.type}
-      </td>
-    `;
+  <td>${tx.description}</td>
+  <td>$${tx.amount}</td>
+  <td class="${tx.type === "income" ? "text-success" : "text-danger"}">
+    ${tx.type}
+  </td>
+  <td>
+    <button class="btn btn-sm btn-danger" onclick="deleteTransaction(${tx.id})">
+      Eliminar
+    </button>
+  </td>
+`;
 
     tableBody.appendChild(row);
 
@@ -68,6 +73,10 @@ function updateUI() {
   localStorage.setItem("transactions", JSON.stringify(transactions));
 }
 
+function deleteTransaction(id) {
+  transactions = transactions.filter((tx) => tx.id !== id);
+  updateUI();
+}
 
 // 5. Cargar datos al iniciar
 function loadTransactions() {
