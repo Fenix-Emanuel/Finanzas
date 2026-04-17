@@ -8,6 +8,7 @@ const dateInput = document.getElementById("date");
 const filterTypeInput = document.getElementById("filterType");
 const filterCategoryInput = document.getElementById("filterCategory");
 const searchInput = document.getElementById("searchInput");
+const filterMonthInput = document.getElementById("filterMonth");
 const clearFiltersBtn = document.getElementById("clearFiltersBtn");
 
 const transactionList = document.getElementById("transactionList");
@@ -17,6 +18,10 @@ const balanceEl = document.getElementById("balance");
 const incomeEl = document.getElementById("income");
 const expenseEl = document.getElementById("expense");
 const transactionsCounterEl = document.getElementById("transactionsCounter");
+
+const monthlyIncomeEl = document.getElementById("monthlyIncome");
+const monthlyExpenseEl = document.getElementById("monthlyExpense");
+const monthlyBalanceEl = document.getElementById("monthlyBalance");
 
 let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
 
@@ -41,6 +46,14 @@ function updateBalanceStyle(balance) {
   }
 }
 
+function updateMonthlyBalanceStyle(balance) {
+  if (balance < 0) {
+    monthlyBalanceEl.classList.add("negative");
+  } else {
+    monthlyBalanceEl.classList.remove("negative");
+  }
+}
+
 function updateTransactionsCounter() {
   const count = transactions.length;
   transactionsCounterEl.textContent =
@@ -51,6 +64,7 @@ function getFilteredTransactions() {
   const selectedType = filterTypeInput.value;
   const selectedCategory = filterCategoryInput.value;
   const searchText = searchInput.value.trim().toLowerCase();
+  const selectedMonth = filterMonthInput.value;
 
   return transactions.filter((transaction) => {
     const matchesType =
@@ -62,8 +76,23 @@ function getFilteredTransactions() {
     const matchesSearch =
       transaction.description.toLowerCase().includes(searchText);
 
-    return matchesType && matchesCategory && matchesSearch;
+    const matchesMonth =
+      !selectedMonth || transaction.date.startsWith(selectedMonth);
+
+    return matchesType && matchesCategory && matchesSearch && matchesMonth;
   });
+}
+
+function getMonthlyTransactions() {
+  const selectedMonth = filterMonthInput.value;
+
+  if (!selectedMonth) {
+    return transactions;
+  }
+
+  return transactions.filter((transaction) =>
+    transaction.date.startsWith(selectedMonth)
+  );
 }
 
 function updateSummary() {
@@ -86,6 +115,29 @@ function updateSummary() {
 
   updateBalanceStyle(balance);
   updateTransactionsCounter();
+}
+
+function updateMonthlySummary() {
+  const monthlyTransactions = getMonthlyTransactions();
+
+  let monthlyIncome = 0;
+  let monthlyExpense = 0;
+
+  monthlyTransactions.forEach((transaction) => {
+    if (transaction.type === "income") {
+      monthlyIncome += transaction.amount;
+    } else {
+      monthlyExpense += transaction.amount;
+    }
+  });
+
+  const monthlyBalance = monthlyIncome - monthlyExpense;
+
+  monthlyIncomeEl.textContent = `$${monthlyIncome.toFixed(2)}`;
+  monthlyExpenseEl.textContent = `$${monthlyExpense.toFixed(2)}`;
+  monthlyBalanceEl.textContent = `$${monthlyBalance.toFixed(2)}`;
+
+  updateMonthlyBalanceStyle(monthlyBalance);
 }
 
 function renderTransactions() {
@@ -127,6 +179,7 @@ function renderTransactions() {
 
 function updateUI() {
   updateSummary();
+  updateMonthlySummary();
   renderTransactions();
 }
 
@@ -159,7 +212,9 @@ form.addEventListener("submit", function (e) {
   form.reset();
   setTodayDate();
   descriptionInput.focus();
-});
+}
+
+);
 
 function deleteTransaction(id) {
   transactions = transactions.filter((transaction) => transaction.id !== id);
@@ -171,12 +226,15 @@ function clearFilters() {
   filterTypeInput.value = "all";
   filterCategoryInput.value = "all";
   searchInput.value = "";
+  filterMonthInput.value = "";
   renderTransactions();
+  updateMonthlySummary();
 }
 
 filterTypeInput.addEventListener("change", renderTransactions);
 filterCategoryInput.addEventListener("change", renderTransactions);
 searchInput.addEventListener("input", renderTransactions);
+filterMonthInput.addEventListener("change", updateUI);
 clearFiltersBtn.addEventListener("click", clearFilters);
 
 setTodayDate();

@@ -120,6 +120,33 @@
 
     <!-- Tabla -->
     <div class="card table-card p-4">
+      <div class="monthly-summary-card mb-4">
+  <div class="row g-3 align-items-end">
+    <div class="col-md-4">
+      <label for="filterMonth" class="form-label">Filtrar por mes</label>
+      <input type="month" id="filterMonth" class="form-control">
+    </div>
+
+    <div class="col-md-8">
+      <div class="monthly-summary-content">
+        <div class="monthly-summary-item">
+          <span class="monthly-label">Ingresos del mes</span>
+          <strong id="monthlyIncome" class="income-text">$0.00</strong>
+        </div>
+
+        <div class="monthly-summary-item">
+          <span class="monthly-label">Gastos del mes</span>
+          <strong id="monthlyExpense" class="expense-text">$0.00</strong>
+        </div>
+
+        <div class="monthly-summary-item">
+          <span class="monthly-label">Balance del mes</span>
+          <strong id="monthlyBalance">$0.00</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
       <div class="filters-bar mb-4">
         <div class="row g-3 align-items-end">
           <div class="col-md-3">
