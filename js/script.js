@@ -212,9 +212,7 @@ form.addEventListener("submit", function (e) {
   form.reset();
   setTodayDate();
   descriptionInput.focus();
-}
-
-);
+});
 
 function deleteTransaction(id) {
   transactions = transactions.filter((transaction) => transaction.id !== id);
