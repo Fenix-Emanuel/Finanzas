@@ -8,6 +8,7 @@ const dateInput = document.getElementById("date");
 const filterTypeInput = document.getElementById("filterType");
 const filterCategoryInput = document.getElementById("filterCategory");
 const searchInput = document.getElementById("searchInput");
+const clearFiltersBtn = document.getElementById("clearFiltersBtn");
 
 const transactionList = document.getElementById("transactionList");
 const emptyState = document.getElementById("emptyState");
@@ -15,11 +16,16 @@ const emptyState = document.getElementById("emptyState");
 const balanceEl = document.getElementById("balance");
 const incomeEl = document.getElementById("income");
 const expenseEl = document.getElementById("expense");
+const transactionsCounterEl = document.getElementById("transactionsCounter");
 
 let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
 
 function saveTransactions() {
   localStorage.setItem("transactions", JSON.stringify(transactions));
+}
+
+function setTodayDate() {
+  dateInput.value = new Date().toISOString().split("T")[0];
 }
 
 function formatDate(dateString) {
@@ -33,6 +39,12 @@ function updateBalanceStyle(balance) {
   } else {
     balanceEl.classList.remove("negative");
   }
+}
+
+function updateTransactionsCounter() {
+  const count = transactions.length;
+  transactionsCounterEl.textContent =
+    count === 1 ? "1 transacción registrada" : `${count} transacciones registradas`;
 }
 
 function getFilteredTransactions() {
@@ -73,6 +85,7 @@ function updateSummary() {
   expenseEl.textContent = `$${totalExpense.toFixed(2)}`;
 
   updateBalanceStyle(balance);
+  updateTransactionsCounter();
 }
 
 function renderTransactions() {
@@ -94,15 +107,15 @@ function renderTransactions() {
       <td>${transaction.category}</td>
       <td>${formatDate(transaction.date)}</td>
       <td>
-        <span class="badge ${transaction.type === "income" ? "bg-success" : "bg-danger"}">
+        <span class="badge-custom ${transaction.type === "income" ? "badge-income" : "badge-expense"}">
           ${transaction.type === "income" ? "Ingreso" : "Gasto"}
         </span>
       </td>
-      <td class="${transaction.type === "income" ? "income-text" : "expense-text"}">
-        $${transaction.amount.toFixed(2)}
+      <td class="${transaction.type === "income" ? "amount-income" : "amount-expense"}">
+        ${transaction.type === "income" ? "+" : "-"}$${transaction.amount.toFixed(2)}
       </td>
       <td>
-        <button class="btn btn-sm btn-danger" onclick="deleteTransaction(${transaction.id})">
+        <button class="btn delete-btn" onclick="deleteTransaction(${transaction.id})">
           Eliminar
         </button>
       </td>
@@ -144,6 +157,8 @@ form.addEventListener("submit", function (e) {
   saveTransactions();
   updateUI();
   form.reset();
+  setTodayDate();
+  descriptionInput.focus();
 });
 
 function deleteTransaction(id) {
@@ -152,8 +167,17 @@ function deleteTransaction(id) {
   updateUI();
 }
 
+function clearFilters() {
+  filterTypeInput.value = "all";
+  filterCategoryInput.value = "all";
+  searchInput.value = "";
+  renderTransactions();
+}
+
 filterTypeInput.addEventListener("change", renderTransactions);
 filterCategoryInput.addEventListener("change", renderTransactions);
 searchInput.addEventListener("input", renderTransactions);
+clearFiltersBtn.addEventListener("click", clearFilters);
 
+setTodayDate();
 updateUI();
