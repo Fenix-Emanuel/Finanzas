@@ -5,6 +5,35 @@ import {
   signOut
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
+const accountInfo = document.getElementById("account-info");
+const loginLink = document.getElementById("login-link");
+const logoutBtn = document.getElementById("logout-btn");
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    accountInfo.textContent = user.email;
+    loginLink.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+  } else {
+    accountInfo.textContent = "Not logged";
+    loginLink.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+
+    window.location.href = "login.html";
+  }
+});
+
+logoutBtn?.addEventListener("click", async () => {
+  await signOut(auth);
+  window.location.href = "login.html";
+});
+import { auth } from "./firebase.js";
+
+import {
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     window.location.href = "login.html";

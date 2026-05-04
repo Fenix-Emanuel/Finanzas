@@ -13,6 +13,24 @@
   <link rel="stylesheet" href="./styles/styles.css">
 </head>
 <body>
+   <nav class="app-navbar">
+    <div class="brand">
+      <h1>FINANZAS 💰</h1>
+      <span>Dashboard</span>
+    </div>
+
+    <div class="nav-links">
+      <a href="#transactions">Add</a>
+      <a href="#summary">Summary</a>
+      <a href="#filters">Filters</a>
+      <a href="#charts">Charts</a>
+
+      <span id="account-info" class="account-pill">Checking...</span>
+
+      <a id="login-link" class="login-btn" href="login.html">Login</a>
+      <button id="logout-btn" class="logout-btn">Logout</button>
+    </div>
+  </nav>
   <div class="container py-5">
     <div class="text-center mb-5">
       <h1 class="app-title">Mi Dashboard Financiero</h1>
@@ -220,6 +238,6 @@
     </div>
   </div>
 
-  <script src="./js/script.js"></script>
+  <script type="module" src="./js/script.js"></script>
 </body>
 </html>

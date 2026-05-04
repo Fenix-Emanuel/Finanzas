@@ -290,3 +290,61 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     grid-template-columns: 1fr;
   }
 }
+/* NAVBAR */
+.app-navbar {
+  background: #1e293b;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #334155;
+}
+
+.brand h1 {
+  color: white;
+  font-size: 20px;
+}
+
+.brand span {
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-links a,
+.nav-links button {
+  background: transparent;
+  border: none;
+  color: #cbd5e1;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.nav-links a:hover,
+.nav-links button:hover {
+  background: #334155;
+}
+
+.account-pill {
+  background: #0f172a;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: #93c5fd;
+}
+
+.login-btn {
+  background: #3b82f6;
+  color: white;
+}
+
+.logout-btn {
+  background: #ef4444;
+  color: white;
+}
