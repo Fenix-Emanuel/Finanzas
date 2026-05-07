@@ -1,0 +1,350 @@
+:root {
+  --bg-main: #0f172a;
+  --bg-secondary: #111827;
+  --bg-card: rgba(30, 41, 59, 0.95);
+  --border-color: #334155;
+  --text-main: #f8fafc;
+  --text-soft: #cbd5e1;
+  --text-muted: #94a3b8;
+  --income-color: #22c55e;
+  --expense-color: #ef4444;
+  --primary-color: #3b82f6;
+  --balance-positive: #ffffff;
+  --balance-negative: #ef4444;
+}
+
+body {
+  background: linear-gradient(180deg, var(--bg-main) 0%, var(--bg-secondary) 100%);
+  color: var(--text-main);
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+}
+
+.app-title {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: var(--text-muted);
+}
+
+.transactions-counter {
+  color: var(--text-soft);
+  font-size: 0.95rem;
+}
+
+.section-title {
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.2px;
+}
+
+.dashboard-card,
+.form-card,
+.table-card {
+  background-color: var(--bg-card);
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(6px);
+}
+
+.dashboard-card h6 {
+  color: var(--text-soft);
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+.dashboard-card h3 {
+  margin: 0;
+  font-weight: 700;
+}
+
+#balance {
+  color: var(--balance-positive);
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.08);
+}
+
+#balance.negative {
+  color: var(--balance-negative);
+  text-shadow: 0 0 12px rgba(239, 68, 68, 0.18);
+}
+
+.income-text {
+  color: var(--income-color);
+}
+
+.expense-text {
+  color: var(--expense-color);
+}
+
+.form-label {
+  color: var(--text-soft);
+  font-weight: 500;
+}
+
+.form-control,
+.form-select {
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.form-control::placeholder {
+  color: var(--text-muted);
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.15);
+}
+
+.form-select option {
+  background-color: #1e293b;
+  color: var(--text-main);
+}
+
+input[type="date"] {
+  color-scheme: dark;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(1.4);
+  opacity: 0.95;
+  cursor: pointer;
+}
+
+.custom-btn {
+  border-radius: 12px;
+  font-weight: 600;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  border: none;
+}
+
+.custom-btn:hover {
+  opacity: 0.95;
+}
+
+.filters-bar {
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.clear-btn {
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-weight: 600;
+  border-color: rgba(203, 213, 225, 0.25);
+}
+
+.clear-btn:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  border-color: rgba(203, 213, 225, 0.4);
+  color: #fff;
+}
+
+.table {
+  color: var(--text-main);
+  margin-bottom: 0;
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--text-main);
+  --bs-table-striped-bg: transparent;
+  --bs-table-striped-color: var(--text-main);
+  --bs-table-active-bg: transparent;
+  --bs-table-active-color: var(--text-main);
+  --bs-table-hover-bg: rgba(255, 255, 255, 0.02);
+  --bs-table-hover-color: var(--text-main);
+}
+
+.table thead th {
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-soft);
+  font-weight: 600;
+}
+
+.table tbody td {
+  border-color: var(--border-color);
+  vertical-align: middle;
+}
+
+.table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.badge-custom {
+  display: inline-block;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.badge-income {
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--income-color);
+}
+
+.badge-expense {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--expense-color);
+}
+
+.amount-income {
+  color: var(--income-color);
+  font-weight: 700;
+}
+
+.amount-expense {
+  color: var(--expense-color);
+  font-weight: 700;
+}
+
+.delete-btn {
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.14);
+  border: 1px solid rgba(239, 68, 68, 0.22);
+  color: #fff;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+}
+
+.delete-btn:hover {
+  background: rgba(239, 68, 68, 0.22);
+}
+
+.empty-state {
+  color: var(--text-muted);
+  text-align: center;
+  padding: 24px 8px 8px;
+}
+
+.empty-state small {
+  color: var(--text-soft);
+}
+
+@media (max-width: 768px) {
+  .app-title {
+    font-size: 1.8rem;
+  }
+
+  .dashboard-card,
+  .form-card,
+  .table-card {
+    border-radius: 16px;
+  }
+}
+.monthly-summary-card {
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.monthly-summary-content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  height: 100%;
+}
+
+.monthly-summary-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.monthly-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+#monthlyBalance {
+  color: var(--balance-positive);
+}
+
+#monthlyBalance.negative {
+  color: var(--balance-negative);
+}
+
+@media (max-width: 768px) {
+  .monthly-summary-content {
+    grid-template-columns: 1fr;
+  }
+}
+/* NAVBAR */
+.app-navbar {
+  background: #1e293b;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #334155;
+}
+
+.brand h1 {
+  color: white;
+  font-size: 20px;
+}
+
+.brand span {
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-links a,
+.nav-links button {
+  background: transparent;
+  border: none;
+  color: #cbd5e1;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.nav-links a:hover,
+.nav-links button:hover {
+  background: #334155;
+}
+
+.account-pill {
+  background: #0f172a;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: #93c5fd;
+}
+
+.login-btn {
+  background: #3b82f6;
+  color: white;
+}
+
+.logout-btn {
+  background: #ef4444;
+  color: white;
+}
