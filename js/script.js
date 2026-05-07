@@ -5,11 +5,15 @@ import {
   signOut
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
+<<<<<<< HEAD
 // Navbar / authentication elements
+=======
+>>>>>>> 8fbd6d81940a444c4d3db69a71ff6396fdafe792
 const accountInfo = document.getElementById("account-info");
 const loginLink = document.getElementById("login-link");
 const logoutBtn = document.getElementById("logout-btn");
 
+<<<<<<< HEAD
 // Check if the user is logged in before showing the dashboard
 onAuthStateChanged(auth, (user) => {
   if (user) {
@@ -36,19 +40,56 @@ onAuthStateChanged(auth, (user) => {
     if (logoutBtn) {
       logoutBtn.style.display = "none";
     }
+=======
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    accountInfo.textContent = user.email;
+    loginLink.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+  } else {
+    accountInfo.textContent = "Not logged";
+    loginLink.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+>>>>>>> 8fbd6d81940a444c4d3db69a71ff6396fdafe792
 
     window.location.href = "login.html";
   }
 });
 
+<<<<<<< HEAD
 // Logout button
+=======
+logoutBtn?.addEventListener("click", async () => {
+  await signOut(auth);
+  window.location.href = "login.html";
+});
+import { auth } from "./firebase.js";
+
+import {
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+  }
+});
+
+const logoutBtn = document.getElementById("logout-btn");
+
+>>>>>>> 8fbd6d81940a444c4d3db69a71ff6396fdafe792
 if (logoutBtn) {
   logoutBtn.addEventListener("click", async () => {
     try {
       await signOut(auth);
       window.location.href = "login.html";
     } catch (error) {
+<<<<<<< HEAD
       console.error("Logout error:", error);
+=======
+      console.log("Logout error:", error);
+>>>>>>> 8fbd6d81940a444c4d3db69a71ff6396fdafe792
     }
   });
 }
@@ -275,9 +316,12 @@ function deleteTransaction(id) {
   updateUI();
 }
 
+<<<<<<< HEAD
 // Because script.js is loaded as type="module", inline onclick needs this function on window.
 window.deleteTransaction = deleteTransaction;
 
+=======
+>>>>>>> 8fbd6d81940a444c4d3db69a71ff6396fdafe792
 function clearFilters() {
   filterTypeInput.value = "all";
   filterCategoryInput.value = "all";
