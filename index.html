@@ -13,24 +13,40 @@
   <link rel="stylesheet" href="./styles/styles.css">
 </head>
 <body>
-   <nav class="app-navbar">
-    <div class="brand">
-      <h1>FINANZAS 💰</h1>
+  <nav class="navbar navbar-expand-lg app-navbar sticky-top">
+  <div class="container">
+    <a class="navbar-brand brand" href="#">
+      <h1>FINANZAS</h1>
       <span>Dashboard</span>
+    </a>
+
+    <button
+      class="navbar-toggler custom-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarMenu"
+      aria-controls="navbarMenu"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarMenu">
+      <div class="navbar-nav ms-auto nav-links">
+        <a class="nav-link" href="#add-section">Add</a>
+        <a class="nav-link" href="#summary-section">Summary</a>
+        <a class="nav-link" href="#filters-section">Filters</a>
+        <a class="nav-link" href="#charts-section">Charts</a>
+
+        <span id="userStatus" class="account-pill">Checking...</span>
+
+        <a id="loginLink" class="nav-link login-btn" href="login.html">Login</a>
+        <button id="logoutBtn" class="logout-btn" type="button">Logout</button>
+      </div>
     </div>
-
-    <div class="nav-links">
-      <a href="#transactions">Add</a>
-      <a href="#summary">Summary</a>
-      <a href="#filters">Filters</a>
-      <a href="#charts">Charts</a>
-
-      <span id="account-info" class="account-pill">Checking...</span>
-
-      <a id="login-link" class="login-btn" href="./login.html">Login</a>
-      <button id="logout-btn" class="logout-btn" style="display: none;">Logout</button>
-    </div>
-  </nav>
+  </div>
+</nav>
   <div class="container py-5">
     <div class="text-center mb-5">
       <h1 class="app-title">Mi Dashboard Financiero</h1>
