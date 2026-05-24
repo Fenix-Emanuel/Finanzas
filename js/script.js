@@ -1,57 +1,35 @@
-import { auth } from "./firebase.js";
+const userStatus = document.getElementById("userStatus");
+const loginLink = document.getElementById("loginLink");
+const logoutBtn = document.getElementById("logoutBtn");
 
-import {
-  onAuthStateChanged,
-  signOut
-} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
 
-// Navbar / authentication elements
-const accountInfo = document.getElementById("account-info");
-const loginLink = document.getElementById("login-link");
-const logoutBtn = document.getElementById("logout-btn");
-
-// Check if the user is logged in before showing the dashboard
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    if (accountInfo) {
-      accountInfo.textContent = `My account: ${user.email}`;
-    }
-
-    if (loginLink) {
-      loginLink.style.display = "none";
-    }
-
-    if (logoutBtn) {
-      logoutBtn.style.display = "inline-block";
-    }
-  } else {
-    if (accountInfo) {
-      accountInfo.textContent = "Not logged in";
-    }
-
-    if (loginLink) {
-      loginLink.style.display = "inline-block";
-    }
-
-    if (logoutBtn) {
-      logoutBtn.style.display = "none";
-    }
-
-    window.location.href = "login.html";
+if (!loggedUser) {
+  window.location.href = "login.html";
+} else {
+  if (userStatus) {
+    userStatus.textContent = `Welcome, ${loggedUser.fullName}`;
   }
-});
 
-// Logout button
+  if (loginLink) {
+    loginLink.style.display = "none";
+  }
+
+  if (logoutBtn) {
+    logoutBtn.style.display = "inline-block";
+  }
+}
+
 if (logoutBtn) {
-  logoutBtn.addEventListener("click", async () => {
-    try {
-      await signOut(auth);
-      window.location.href = "login.html";
-    } catch (error) {
-      console.error("Logout error:", error);
-    }
+  logoutBtn.addEventListener("click", () => {
+    localStorage.removeItem("loggedUser");
+    window.location.href = "login.html";
   });
 }
+
+// ====================================
+// TRANSACTIONS
+// ====================================
 
 const form = document.getElementById("transactionForm");
 const descriptionInput = document.getElementById("description");
@@ -78,14 +56,18 @@ const monthlyIncomeEl = document.getElementById("monthlyIncome");
 const monthlyExpenseEl = document.getElementById("monthlyExpense");
 const monthlyBalanceEl = document.getElementById("monthlyBalance");
 
-let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+const transactionsKey = `transactions_${loggedUser.email}`;
+
+let transactions = JSON.parse(localStorage.getItem(transactionsKey)) || [];
 
 function saveTransactions() {
-  localStorage.setItem("transactions", JSON.stringify(transactions));
+  localStorage.setItem(transactionsKey, JSON.stringify(transactions));
 }
 
 function setTodayDate() {
-  dateInput.value = new Date().toISOString().split("T")[0];
+  if (dateInput) {
+    dateInput.value = new Date().toISOString().split("T")[0];
+  }
 }
 
 function formatDate(dateString) {
@@ -112,7 +94,9 @@ function updateMonthlyBalanceStyle(balance) {
 function updateTransactionsCounter() {
   const count = transactions.length;
   transactionsCounterEl.textContent =
-    count === 1 ? "1 transacción registrada" : `${count} transacciones registradas`;
+    count === 1
+      ? "1 transacción registrada"
+      : `${count} transacciones registradas`;
 }
 
 function getFilteredTransactions() {
@@ -214,11 +198,15 @@ function renderTransactions() {
       <td>${transaction.category}</td>
       <td>${formatDate(transaction.date)}</td>
       <td>
-        <span class="badge-custom ${transaction.type === "income" ? "badge-income" : "badge-expense"}">
+        <span class="badge-custom ${
+          transaction.type === "income" ? "badge-income" : "badge-expense"
+        }">
           ${transaction.type === "income" ? "Ingreso" : "Gasto"}
         </span>
       </td>
-      <td class="${transaction.type === "income" ? "amount-income" : "amount-expense"}">
+      <td class="${
+        transaction.type === "income" ? "amount-income" : "amount-expense"
+      }">
         ${transaction.type === "income" ? "+" : "-"}$${transaction.amount.toFixed(2)}
       </td>
       <td>
@@ -238,36 +226,38 @@ function updateUI() {
   renderTransactions();
 }
 
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
+if (form) {
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-  const description = descriptionInput.value.trim();
-  const amount = parseFloat(amountInput.value);
-  const type = typeInput.value;
-  const category = categoryInput.value;
-  const date = dateInput.value;
+    const description = descriptionInput.value.trim();
+    const amount = parseFloat(amountInput.value);
+    const type = typeInput.value;
+    const category = categoryInput.value;
+    const date = dateInput.value;
 
-  if (!description || isNaN(amount) || amount <= 0 || !type || !category || !date) {
-    alert("Por favor completá todos los campos correctamente.");
-    return;
-  }
+    if (!description || isNaN(amount) || amount <= 0 || !type || !category || !date) {
+      alert("Por favor completá todos los campos correctamente.");
+      return;
+    }
 
-  const newTransaction = {
-    id: Date.now(),
-    description,
-    amount,
-    type,
-    category,
-    date
-  };
+    const newTransaction = {
+      id: Date.now(),
+      description,
+      amount,
+      type,
+      category,
+      date
+    };
 
-  transactions.push(newTransaction);
-  saveTransactions();
-  updateUI();
-  form.reset();
-  setTodayDate();
-  descriptionInput.focus();
-});
+    transactions.push(newTransaction);
+    saveTransactions();
+    updateUI();
+    form.reset();
+    setTodayDate();
+    descriptionInput.focus();
+  });
+}
 
 function deleteTransaction(id) {
   transactions = transactions.filter((transaction) => transaction.id !== id);
@@ -275,7 +265,6 @@ function deleteTransaction(id) {
   updateUI();
 }
 
-// Because script.js is loaded as type="module", inline onclick needs this function on window.
 window.deleteTransaction = deleteTransaction;
 
 function clearFilters() {
