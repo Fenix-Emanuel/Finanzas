@@ -81,3 +81,9 @@ body { overflow-x: hidden; }
   .stage__tilt { transform: none; }
   .reveal { opacity: 1; transform: none; }
 }
+
+/* Sello de Ignis Studio */
+.ignis-seal { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 13px; text-decoration: none; transition: border-color .25s, color .25s; }
+.ignis-seal:hover { border-color: #FF5A1F; color: var(--text); }
+.ignis-seal__mark { display: inline-flex; align-items: center; gap: 6px; color: var(--text); font-weight: 800; font-size: 12px; letter-spacing: .1em; }
+.ignis-seal__mark i { width: 7px; height: 7px; border-radius: 50%; background: #FF5A1F; box-shadow: 0 0 10px 2px rgba(255, 90, 31, .6); }

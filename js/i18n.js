@@ -8,7 +8,7 @@ window.Flow = window.Flow || {};
   const ES = {
     // Comunes
     skip: 'Ir al contenido', tryDemo: 'Probar la demo', openApp: 'Abrir la app',
-    langLabel: 'Switch to English', madeBy: 'Diseñada y programada por',
+    langLabel: 'Switch to English', madeBy: 'Diseñada y programada por', ignisSeal: 'Hecho en',
     // Landing
     navFeatures: 'Funciones', navPrivacy: 'Privacidad', navHow: 'Cómo funciona',
     heroKicker: 'Finanzas personales y de emprendimientos',
