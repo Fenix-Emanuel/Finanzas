@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Flow · Dashboard</title>
+  <meta name="description" content="Track income and expenses, see where your money goes and stay on budget. Your data stays in your browser.">
+  <meta name="theme-color" content="#0B0E13">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <script>try { const t = localStorage.getItem('flow.theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+
+  <!-- Íconos (trazos simples) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="12" width="7" height="9" rx="2"/><rect x="3" y="16" width="7" height="5" rx="2"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  </svg>
+
+  <div class="shell">
+    <!-- ============ Barra lateral (abajo en el celular) ============ -->
+    <aside class="side" aria-label="App">
+      <a class="logo" href="index.html"><span class="logo__mark" aria-hidden="true"></span>Flow</a>
+      <nav class="side__nav" aria-label="Sections">
+        <a href="#overview" class="is-active"><svg aria-hidden="true"><use href="#i-grid"/></svg><span data-i18n="navOverview">Overview</span></a>
+        <a href="#insights"><svg aria-hidden="true"><use href="#i-chart"/></svg><span data-i18n="navInsights">Insights</span></a>
+        <a href="#budgets"><svg aria-hidden="true"><use href="#i-target"/></svg><span data-i18n="navBudgets">Budgets</span></a>
+        <a href="#transactions"><svg aria-hidden="true"><use href="#i-list"/></svg><span data-i18n="navTransactions">Transactions</span></a>
+      </nav>
+      <div class="side__foot">
+        <button class="btn btn--ghost side__export" type="button" id="exportBtn"><svg aria-hidden="true"><use href="#i-download"/></svg><span data-i18n="exportCsv">Export CSV</span></button>
+        <p class="side__credit"><span data-i18n="madeBy">Designed & built by</span> <a href="https://fenix-emanuel.github.io/Curriculum/" target="_blank" rel="noopener">Emanuel Benitez</a></p>
+      </div>
+    </aside>
+
+    <main class="main" id="main">
+      <!-- ============ Encabezado ============ -->
+      <header class="top">
+        <div>
+          <p class="top__hello" id="hello">Good evening</p>
+          <div class="month" role="group" aria-label="Month">
+            <button class="icon-btn" type="button" id="prevMonth" data-i18n-aria="prevMonth" aria-label="Previous month"><svg aria-hidden="true"><use href="#i-left"/></svg></button>
+            <h1 class="month__label" id="monthLabel">November 2026</h1>
+            <button class="icon-btn" type="button" id="nextMonth" data-i18n-aria="nextMonth" aria-label="Next month"><svg aria-hidden="true"><use href="#i-right"/></svg></button>
+          </div>
+        </div>
+        <div class="top__actions">
+          <button class="lang" type="button" data-lang-btn aria-label="Cambiar a español"><span data-l="en">EN</span> / <span data-l="es">ES</span></button>
+          <button class="icon-btn" type="button" id="themeBtn" data-i18n-aria="theme" aria-label="Toggle theme"><svg aria-hidden="true"><use href="#i-moon"/></svg></button>
+          <button class="btn btn--primary" type="button" id="addBtn"><svg aria-hidden="true"><use href="#i-plus"/></svg><span data-i18n="addTx">Add transaction</span></button>
+        </div>
+      </header>
+
+      <div class="demo" id="demoBar" hidden>
+        <span class="demo__dot" aria-hidden="true"></span>
+        <p data-i18n="demoBanner">You're looking at sample data.</p>
+        <button class="demo__btn" type="button" id="freshBtn" data-i18n="startFresh">Start fresh</button>
+      </div>
+
+      <!-- ============ Indicadores ============ -->
+      <section class="kpis" id="overview" aria-label="Overview">
+        <article class="kpi kpi--hero">
+          <p class="kpi__label" data-i18n="kBalance">Total balance</p>
+          <p class="kpi__value num" id="kBalance">$0.00</p>
+          <p class="kpi__foot" data-i18n="allTime">All time</p>
+        </article>
+        <article class="kpi">
+          <p class="kpi__label" data-i18n="kIncome">Income this month</p>
+          <p class="kpi__value num kpi__value--in" id="kIncome">$0.00</p>
+          <p class="kpi__foot" id="kIncomeDelta"></p>
+        </article>
+        <article class="kpi">
+          <p class="kpi__label" data-i18n="kExpense">Spent this month</p>
+          <p class="kpi__value num kpi__value--out" id="kExpense">$0.00</p>
+          <p class="kpi__foot" id="kExpenseDelta"></p>
+        </article>
+        <article class="kpi">
+          <p class="kpi__label" data-i18n="kSavings">Savings rate</p>
+          <p class="kpi__value num" id="kSavings">0%</p>
+          <div class="meter" aria-hidden="true"><span id="kSavingsBar"></span></div>
+        </article>
+      </section>
+
+      <!-- ============ Gráficos ============ -->
+      <section class="grid2" id="insights" aria-label="Insights">
+        <article class="card">
+          <header class="card__head">
+            <div><h2 class="card__title" data-i18n="cashflow">Cash flow</h2><p class="card__sub" data-i18n="last6">Last 6 months</p></div>
+            <ul class="legend"><li><i style="background: var(--accent)"></i><span data-i18n="income">Income</span></li><li><i style="background: var(--expense)"></i><span data-i18n="expenses">Expenses</span></li></ul>
+          </header>
+          <div class="chart chart--bars"><canvas id="flowChart" role="img" aria-label="Income and expenses for the last six months"></canvas></div>
+        </article>
+        <article class="card">
+          <header class="card__head">
+            <div><h2 class="card__title" data-i18n="byCategory">Spending by category</h2><p class="card__sub" data-i18n="thisMonth">This month</p></div>
+          </header>
+          <div class="donut">
+            <div class="chart chart--donut"><canvas id="catChart" role="img" aria-label="Spending by category this month"></canvas><p class="donut__center"><span class="num" id="donutTotal">$0</span></p></div>
+            <ul class="catlist" id="catList"></ul>
+          </div>
+        </article>
+      </section>
+
+      <!-- ============ Presupuestos e insights ============ -->
+      <section class="grid2 grid2--wide" aria-label="Budgets">
+        <article class="card" id="budgets">
+          <header class="card__head">
+            <div><h2 class="card__title" data-i18n="budgets">Budgets</h2><p class="card__sub" data-i18n="budgetHint">Tap an amount to edit it</p></div>
+          </header>
+          <ul class="budgets" id="budgetList"></ul>
+        </article>
+        <article class="card card--insights">
+          <ul class="insights" id="insightList"></ul>
+        </article>
+      </section>
+
+      <!-- ============ Movimientos ============ -->
+      <section class="card" id="transactions" aria-labelledby="txTitle">
+        <header class="card__head card__head--wrap">
+          <div><h2 class="card__title" id="txTitle" data-i18n="transactions">Transactions</h2><p class="card__sub"><span class="num" id="txCount">0</span> <span data-i18n="results">transactions</span></p></div>
+          <div class="filters">
+            <label class="search"><svg aria-hidden="true"><use href="#i-search"/></svg><span class="visually-hidden" data-i18n="search">Search</span><input type="search" id="search" data-i18n-ph="searchPh" placeholder="Search by description"></label>
+            <div class="seg" role="radiogroup" aria-label="Type" id="typeSeg">
+              <button type="button" role="radio" aria-checked="true" data-type="all" data-i18n="allTypes">All</button>
+              <button type="button" role="radio" aria-checked="false" data-type="income" data-i18n="income">Income</button>
+              <button type="button" role="radio" aria-checked="false" data-type="expense" data-i18n="expenses">Expenses</button>
+            </div>
+            <label class="select"><span class="visually-hidden" data-i18n="fCategory">Category</span><select id="catFilter"><option value="all" data-i18n="allCategories">All categories</option></select></label>
+            <label class="select"><span class="visually-hidden" data-i18n="sortBy">Sort</span><select id="sort">
+              <option value="new" data-i18n="sortNewest">Newest first</option>
+              <option value="old" data-i18n="sortOldest">Oldest first</option>
+              <option value="high" data-i18n="sortHigh">Highest amount</option>
+              <option value="low" data-i18n="sortLow">Lowest amount</option>
+            </select></label>
+          </div>
+        </header>
+        <div id="txList" class="txlist"></div>
+        <div class="empty" id="txEmpty" hidden>
+          <p class="empty__title" data-i18n="emptyTitle">Nothing here yet.</p>
+          <p data-i18n="emptyText">Add your first transaction or change the filters.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ============ Formulario de movimiento ============ -->
+  <dialog class="modal" id="txModal" aria-labelledby="modalTitle">
+    <form class="modal__form" id="txForm" novalidate>
+      <header class="modal__head">
+        <h2 id="modalTitle">New transaction</h2>
+        <button class="icon-btn" type="button" id="closeModal" data-i18n-aria="cancel" aria-label="Cancel"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+      </header>
+      <fieldset class="seg seg--big">
+        <legend class="visually-hidden" data-i18n="fType">Type</legend>
+        <label><input type="radio" name="type" value="expense" checked><span data-i18n="fExpense">Expense</span></label>
+        <label><input type="radio" name="type" value="income"><span data-i18n="fIncome">Income</span></label>
+      </fieldset>
+      <label class="field field--amount">
+        <span data-i18n="fAmount">Amount</span>
+        <div class="amount"><span aria-hidden="true">$</span><input type="number" id="fAmount" inputmode="decimal" min="0.01" step="0.01" placeholder="0.00" required></div>
+        <small class="field__err" id="errAmount"></small>
+      </label>
+      <label class="field">
+        <span data-i18n="fDesc">Description</span>
+        <input type="text" id="fDesc" maxlength="60" data-i18n-ph="fDescPh" placeholder="e.g. Groceries" required>
+        <small class="field__err" id="errDesc"></small>
+      </label>
+      <div class="field-row">
+        <label class="field"><span data-i18n="fCategory">Category</span><select id="fCategory"></select></label>
+        <label class="field"><span data-i18n="fDate">Date</span><input type="date" id="fDate" required><small class="field__err" id="errDate"></small></label>
+      </div>
+      <footer class="modal__foot">
+        <button class="btn btn--ghost" type="button" id="cancelModal" data-i18n="cancel">Cancel</button>
+        <button class="btn btn--primary" type="submit" data-i18n="save">Save</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- ============ Confirmar borrar todo ============ -->
+  <dialog class="modal modal--sm" id="freshModal" aria-labelledby="freshTitle">
+    <div class="modal__form">
+      <h2 id="freshTitle" data-i18n="confirmFresh">Delete all transactions?</h2>
+      <p class="modal__text" data-i18n="confirmFreshText">This removes the data saved in this browser. It can't be undone.</p>
+      <footer class="modal__foot">
+        <button class="btn btn--ghost" type="button" id="freshNo" data-i18n="cancel">Cancel</button>
+        <button class="btn btn--danger" type="button" id="freshYes" data-i18n="confirmYes">Yes, delete all</button>
+      </footer>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden><span id="toastMsg"></span><button type="button" id="toastAction" hidden></button></div>
+
+  <script src="vendor/chart.umd.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

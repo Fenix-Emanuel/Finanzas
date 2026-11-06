@@ -1,0 +1,12 @@
+[
+  { "id": "salary", "type": "income", "en": "Salary", "es": "Salario", "color": "#3DDC97" },
+  { "id": "sales", "type": "income", "en": "Sales", "es": "Ventas", "color": "#2DD4BF" },
+  { "id": "freelance", "type": "income", "en": "Freelance", "es": "Freelance", "color": "#7DD3FC" },
+  { "id": "rent", "type": "expense", "en": "Rent", "es": "Alquiler", "color": "#FF8A65" },
+  { "id": "food", "type": "expense", "en": "Food", "es": "Comida", "color": "#FBBF24" },
+  { "id": "transport", "type": "expense", "en": "Transport", "es": "Transporte", "color": "#60A5FA" },
+  { "id": "services", "type": "expense", "en": "Bills & services", "es": "Servicios", "color": "#C084FC" },
+  { "id": "marketing", "type": "expense", "en": "Marketing", "es": "Marketing", "color": "#F472B6" },
+  { "id": "health", "type": "expense", "en": "Health", "es": "Salud", "color": "#FB7185" },
+  { "id": "other", "type": "expense", "en": "Other", "es": "Otros", "color": "#94A3B8" }
+]
